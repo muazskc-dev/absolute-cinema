@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+target/
+*.tsbuildinfo
+
+# Tauri
+apps/desktop/src-tauri/target/
+apps/desktop/src-tauri/gen/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local test media (never commit large media)
+test-media/
+
+# Evidence artifacts: screenshots/logs stay local; the Sprint 0 report is a
+# required deliverable and is committed.
+artifacts/*
+!artifacts/sprint0-report.md
+
+# Logs and coverage
+*.log
+coverage/
+playwright-report/
+test-results/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+*.swp

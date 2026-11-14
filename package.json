@@ -1,0 +1,15 @@
+{
+  "name": "absolute-cinema",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@12.18.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @absolute-cinema/desktop tauri dev",
+    "web": "pnpm --filter @absolute-cinema/desktop dev",
+    "build": "pnpm --filter @absolute-cinema/desktop tauri build",
+    "typecheck": "pnpm --filter @absolute-cinema/desktop typecheck"
+  }
+}

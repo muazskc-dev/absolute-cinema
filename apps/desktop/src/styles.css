@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/*
+ * ABSOLUTE-CINEMA design tokens.
+ * AMOLED black is a functional choice: #000 pixels are off on OLED panels and
+ * the interface should disappear around the film. Fonts are local OS stacks
+ * until the Sprint 1 font bundling lands; nothing is fetched from the network.
+ */
+@theme {
+  --color-paper: #f5f5f7;
+  --color-muted: #9a9aa3;
+  --color-faint: #6b6b75;
+
+  --color-line: #232327;
+  --color-line-strong: #34343a;
+
+  --color-surface: #0a0a0b;
+  --color-raised: #111113;
+
+  --color-accent: #e11d2e;
+  --color-accent-soft: #3a0b10;
+
+  --font-sans: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui,
+    -apple-system, sans-serif;
+  --font-display: "Instrument Serif", "Iowan Old Style", "Palatino Linotype",
+    Georgia, serif;
+  --font-mono: "JetBrains Mono", "Cascadia Mono", Consolas, ui-monospace,
+    monospace;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: #000000;
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: rgba(225, 29, 46, 0.35);
+    color: #ffffff;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #2a2a2f transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: #2a2a2f;
+    border-radius: 999px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgba(225, 29, 46, 0.7);
+    outline-offset: 2px;
+  }
+}
+
+/* The scrubber is styled explicitly so its filled section can be driven inline. */
+.cinema-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+}
+
+.cinema-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.cinema-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 2px solid #e11d2e;
+  box-shadow: 0 0 0 4px rgba(225, 29, 46, 0.12);
+  transition: transform 120ms ease;
+}
+
+.cinema-range:hover::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+
+.cinema-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 2px solid #e11d2e;
+  box-shadow: 0 0 0 4px rgba(225, 29, 46, 0.12);
+  transition: transform 120ms ease;
+}
+
+.cinema-range:hover::-moz-range-thumb {
+  transform: scale(1.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
