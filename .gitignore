@@ -21,10 +21,15 @@ apps/desktop/src-tauri/gen/
 # Local test media (never commit large media)
 test-media/
 
-# Evidence artifacts: screenshots/logs stay local; the Sprint 0 report is a
-# required deliverable and is committed.
+# Evidence artifacts: screenshots/logs stay local by default. The sprint
+# reports and the Sprint 1 screenshots are required deliverables and are
+# committed.
 artifacts/*
 !artifacts/sprint0-report.md
+!artifacts/sprint1-report.md
+!artifacts/sprint-1/
+!artifacts/sprint-1/screenshots/
+!artifacts/sprint-1/screenshots/*.png
 
 # Logs and coverage
 *.log
@@ -37,3 +42,6 @@ test-results/
 Thumbs.db
 .idea/
 *.swp
+
+# Local execution ledgers
+.superpowers/

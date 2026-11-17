@@ -14,8 +14,22 @@ WebRTC signaling.
 The architecture and implementation plan are complete. The desktop shell, mpv
 IPC integration and Media Lab are implemented and exercised on Windows. The
 evidence, including the honest 4K/8K limitations, is in
-[`artifacts/sprint0-report.md`](artifacts/sprint0-report.md). Next is Sprint 1:
-the final UI and design system, then rooms and synchronization.
+[`artifacts/sprint0-report.md`](artifacts/sprint0-report.md).
+
+**Sprint 1 — Monochrome UI and room experience prototype (complete on the build
+machine).**
+
+The desktop client now has the final monochrome design system, Geist typography,
+Home / Active rooms / Room history / Create / Join / Waiting room / Cinema room /
+Chat / Voice / Settings / Developer lab surfaces, and local lifecycle prototypes
+for dormant, waking, waiting, live and reconnecting rooms. Rooms, passwords and
+chat are in-memory demo data: they reset when the app closes, and no server,
+synchronization or microphone capture exists yet. See
+[`docs/design/sprint-1-visual-spec.md`](docs/design/sprint-1-visual-spec.md),
+[`docs/rooms/room-lifecycle.md`](docs/rooms/room-lifecycle.md) and
+[`artifacts/sprint1-report.md`](artifacts/sprint1-report.md).
+
+Next is Sprint 2: server-authoritative rooms and synchronization.
 
 ## Stack baseline
 
@@ -35,6 +49,8 @@ the final UI and design system, then rooms and synchronization.
 
 - [Design brief](docs/superpowers/specs/2026-11-14-absolute-cinema-design.md)
 - [Implementation plan](docs/plans/2026-11-14-absolute-cinema-implementation-plan.md)
+- [Sprint 1 visual specification](docs/design/sprint-1-visual-spec.md)
+- [Room lifecycle contract](docs/rooms/room-lifecycle.md)
 - [Architecture](docs/architecture.md)
 - [Sync + wire protocol](docs/protocol.md)
 - [Security and privacy](docs/security.md)

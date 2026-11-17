@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { motion } from "motion/react";
 import { AudioLines, Cpu, Gauge, MonitorPlay } from "lucide-react";
+
 import type { PlayerSnapshot } from "../lib/mpv";
 
 interface DiagnosticsPanelProps {
@@ -19,11 +20,13 @@ function Row({
   mono?: boolean;
 }) {
   return (
-    <div className="flex items-baseline justify-between gap-4 border-b border-line/60 py-2 last:border-b-0">
-      <span className="text-[10px] uppercase tracking-[0.18em] text-faint">{label}</span>
+    <div className="flex items-baseline justify-between gap-4 border-b border-line-subtle py-1.5 last:border-b-0">
+      <span className="text-[10px] uppercase tracking-[0.12em] text-ink-secondary">
+        {label}
+      </span>
       <span
-        className={`max-w-[62%] truncate text-right text-[12px] text-paper ${
-          mono ? "font-mono text-[11px]" : ""
+        className={`max-w-[62%] truncate text-right text-[11px] text-ink ${
+          mono ? "font-mono text-[10px]" : ""
         }`}
         title={typeof value === "string" ? value : undefined}
       >
@@ -43,8 +46,8 @@ function Section({
   children: ReactNode;
 }) {
   return (
-    <div className="border-b border-line px-5 py-4 last:border-b-0">
-      <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-muted">
+    <div className="border-b border-line-subtle px-4 py-3 last:border-b-0">
+      <div className="mb-1.5 flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.14em] text-ink-secondary">
         {icon}
         <span>{title}</span>
       </div>
@@ -61,24 +64,31 @@ export function DiagnosticsPanel({
   const video = snapshot.video;
   const audio = snapshot.audio;
   const resolution =
-    video?.width && video?.height ? `${video.width} × ${video.height}` : "—";
+    video?.width && video?.height
+      ? `${video.width} × ${video.height}`
+      : "—";
   const audioTracks = snapshot.tracks.filter((track) => track.type === "audio");
   const subtitleTracks = snapshot.tracks.filter((track) => track.type === "sub");
 
   return (
-    <motion.aside
-      initial={{ opacity: 0, y: 10 }}
+    <motion.section
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      className="overflow-hidden rounded-xl border border-line bg-surface"
+      transition={{ duration: 0.24, ease: "easeOut" }}
+      aria-label="Playback telemetry"
+      className="overflow-hidden rounded-xl border border-line-subtle bg-surface-1"
     >
-      <div className="flex items-center justify-between border-b border-line px-5 py-4">
+      <div className="flex items-center justify-between gap-3 border-b border-line-subtle px-4 py-3">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.22em] text-accent">Signal</p>
-          <h2 className="mt-1 text-sm font-medium text-paper">Playback telemetry</h2>
+          <p className="text-[10px] uppercase tracking-[0.14em] text-ink-secondary">
+            Signal
+          </p>
+          <h2 className="mt-0.5 text-[12px] font-medium text-ink">
+            Playback telemetry
+          </h2>
         </div>
-        <span className="rounded-full border border-line px-2 py-1 font-mono text-[9px] text-faint">
-          {snapshot.running ? "IPC LIVE" : "NO PROCESS"}
+        <span className="rounded border border-line px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-secondary">
+          {snapshot.running ? "IPC live" : "No process"}
         </span>
       </div>
 
@@ -113,7 +123,8 @@ export function DiagnosticsPanel({
         <Row
           label="color"
           value={
-            [video?.colorPrimaries, video?.gamma].filter(Boolean).join(" / ") || "—"
+            [video?.colorPrimaries, video?.gamma].filter(Boolean).join(" / ") ||
+            "—"
           }
           mono
         />
@@ -136,41 +147,50 @@ export function DiagnosticsPanel({
 
       <Section icon={<Cpu size={12} />} title="Tracks">
         {audioTracks.length === 0 && subtitleTracks.length === 0 ? (
-          <p className="py-1 text-[11px] text-faint">No tracks reported yet.</p>
+          <p className="py-1 text-[11px] text-ink-secondary">
+            No tracks reported yet.
+          </p>
         ) : (
-          <div className="space-y-1.5">
-            {[...audioTracks, ...subtitleTracks].slice(0, 8).map((track, index) => (
-              <div
-                key={`${track.type}-${track.id ?? index}`}
-                className="flex items-center justify-between gap-3 text-[11px]"
-              >
-                <span className="flex min-w-0 items-center gap-2">
-                  <span
-                    className={
-                      track.selected
-                        ? "h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
-                        : "h-1.5 w-1.5 shrink-0 rounded-full bg-line-strong"
-                    }
-                  />
-                  <span className="truncate text-paper/90">
-                    {track.title || track.language || `${track.type} ${track.id ?? ""}`}
+          <div className="flex flex-col gap-1.5">
+            {[...audioTracks, ...subtitleTracks]
+              .slice(0, 8)
+              .map((track, index) => (
+                <div
+                  key={`${track.type}-${track.id ?? index}`}
+                  className="flex items-center justify-between gap-3 text-[11px]"
+                >
+                  <span className="flex min-w-0 items-center gap-2">
+                    <span
+                      aria-hidden
+                      className={
+                        track.selected
+                          ? "size-1.5 shrink-0 rounded-full bg-ink"
+                          : "size-1.5 shrink-0 rounded-full border border-ink-muted"
+                      }
+                    />
+                    <span className="truncate text-ink">
+                      {track.title ||
+                        track.language ||
+                        `${track.type} ${track.id ?? ""}`}
+                    </span>
                   </span>
-                </span>
-                <span className="shrink-0 font-mono text-[10px] uppercase text-faint">
-                  {track.type} {track.codec ? `· ${track.codec}` : ""}
-                </span>
-              </div>
-            ))}
+                  <span className="shrink-0 font-mono text-[10px] uppercase text-ink-secondary">
+                    {track.type} {track.codec ? `· ${track.codec}` : ""}
+                  </span>
+                </div>
+              ))}
           </div>
         )}
       </Section>
 
-      <div className="px-5 py-4">
-        <p className="text-[10px] uppercase tracking-[0.18em] text-faint">Binary</p>
-        <p className="mt-2 break-all font-mono text-[10px] leading-5 text-muted">
+      <div className="px-4 py-3">
+        <p className="text-[10px] uppercase tracking-[0.12em] text-ink-secondary">
+          Binary
+        </p>
+        <p className="mt-1.5 break-all font-mono text-[10px] leading-4 text-ink-secondary">
           {executable ?? "mpv not found — install mpv or set ABSOLUTE_CINEMA_MPV"}
         </p>
       </div>
-    </motion.aside>
+    </motion.section>
   );
 }
